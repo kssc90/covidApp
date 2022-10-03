@@ -18,7 +18,8 @@ export function CovidReact() {
       .then((res) => res.json())
       .then((apiData) => {
         const newApiData = {
-          country: "INDIA",...apiData.statewise[0]
+          country: "INDIA",
+          ...apiData.statewise[0],
         };
         setData(newApiData);
       })
