@@ -4,12 +4,23 @@ import "./CovidReact.css";
 export function CovidReact() {
   let [data, setData] = useState([]);
 
+  const dataList = [
+    { tag1: "OUR ", tag2: " COUNTRY", link: data.country },
+    { tag1: "TOTAL ", tag2: " RECOVERED", link: data.recovered },
+    { tag1: "TOTAL ", tag2: " CONFIRMED", link: data.confirmed },
+    { tag1: "TOTAL ", tag2: " DEATHS", link: data.deaths },
+    { tag1: "TOTAL ", tag2: " ACTIVE", link: data.active },
+    { tag1: "LAST ", tag2: " UPDATED", link: data.lastupdatedtime },
+  ];
+
   const getCovidData = () => {
     fetch("https://data.covid19india.org/data.json")
       .then((res) => res.json())
       .then((apiData) => {
-        setData(apiData.statewise[0]);
-        // console.log(data);
+        const newApiData = {
+          country: "INDIA",...apiData.statewise[0]
+        };
+        setData(newApiData);
       })
       .catch((err) => console.log(err));
   };
@@ -23,68 +34,22 @@ export function CovidReact() {
       <section>
         <h1>🔴 LIVE</h1>
         <h2>COVID-19 CORONAVIRUS TRACKER</h2>
+        {console.log(data)}
 
         <ul>
-          <li className="card">
-            <div className="card_main">
-              <div className="card_inner">
-                <p className="card_name">
-                  <span>OUR </span> COUNTRY
-                </p>
-                <p className="card_total card_small">INDIA</p>
+          {dataList.map((item) => {
+            return (
+              <div className="card_main">
+                <div className="card_inner">
+                  <p className="card_name">
+                    <span>{item.tag1}</span>
+                    {item.tag2}
+                  </p>
+                  <p className="card_total card_small">{item.link}</p>
+                </div>
               </div>
-            </div>
-          </li>
-          <li className="card">
-            <div className="card_main">
-              <div className="card_inner">
-                <p className="card_name">
-                  <span>TOTAL </span> RECOVERED
-                </p>
-                <p className="card_total card_small">{data.recovered}</p>
-              </div>
-            </div>
-          </li>
-          <li className="card">
-            <div className="card_main">
-              <div className="card_inner">
-                <p className="card_name">
-                  <span>TOTAL </span> CONFIRMED
-                </p>
-                <p className="card_total card_small">{data.confirmed}</p>
-              </div>
-            </div>
-          </li>
-          <li className="card">
-            <div className="card_main">
-              <div className="card_inner">
-                <p className="card_name">
-                  <span>TOTAL </span> DEATHS
-                </p>
-                <p className="card_total card_small">{data.deaths}</p>
-              </div>
-            </div>
-          </li>
-          <li className="card">
-            <div className="card_main">
-              <div className="card_inner">
-                <p className="card_name">
-                  <span>TOTAL </span> ACTIVE
-                </p>
-                <p className="card_total card_small">{data.active}</p>
-              </div>
-            </div>
-          </li>
-          <li className="card">
-            <div className="card_main">
-              <div className="card_inner">
-                <p className="card_name">
-                  <span>LAST </span> UPDATED
-                </p>
-                <p className="card_total card_small">{data.lastupdatedtime}</p>
-              </div>
-            </div>
-          </li>
+            );
+          })}
         </ul>
       </section>
     </>
